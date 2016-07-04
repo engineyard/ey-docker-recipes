@@ -1,0 +1,42 @@
+{
+  "name": "engineyard_docker",
+  "description": "Wraps the docker cookbook to work on Engineyard provisioned AWS instances",
+  "long_description": "",
+  "maintainer": "Allan Espinosa",
+  "maintainer_email": "aespinosa@engineyard.com",
+  "license": "none",
+  "platforms": {
+  },
+  "dependencies": {
+    "docker": "~> 2.7"
+  },
+  "recommendations": {
+  },
+  "suggestions": {
+  },
+  "conflicting": {
+  },
+  "providing": {
+  },
+  "replacing": {
+  },
+  "attributes": {
+  },
+  "groupings": {
+  },
+  "recipes": {
+  },
+  "version": "0.1.0",
+  "source_url": "",
+  "issues_url": "",
+  "privacy": false,
+  "chef_versions": [
+
+  ],
+  "ohai_versions": [
+
+  ],
+  "gems": [
+
+  ]
+}
