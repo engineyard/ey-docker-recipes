@@ -16,7 +16,7 @@ end
 
 docker_service_manager_monit "default" do
   graph "/data/docker/graph"
-  storage_driver "overlay2"
+  storage_driver "overlay"
 end
 
 ["/data/youtrack/lib", "/data/youtrack/local/logs", "/data/youtrack/local/conf", "/data/youtrack/local/data", "/data/youtrack/local/backups"].each do |name|
@@ -55,7 +55,4 @@ docker_container 'echo-server' do
   action :run
 end
 
-docker_container 'hello-world' do
-  command '/hello'
-  action :create
-end
+
