@@ -1,0 +1,4 @@
+check process docker do
+  with pidfile /var/run/engineyard/docker.pid
+  start program = "/etc/init.d/docker zap && /etc/init.d/docker start"
+  stop program = "/etc/init.d/docker stop"

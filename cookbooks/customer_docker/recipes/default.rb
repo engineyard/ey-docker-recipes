@@ -19,6 +19,11 @@ docker_service_manager_monit "default" do
   storage_driver "overlay2"
 end
 
+template '/etc/monit.d/docker.monitrc' do
+  source 'docker.monitrc.erb'
+  only_if { is_util_instance }
+end
+
 ["/data/youtrack/lib", "/data/youtrack/local/logs", "/data/youtrack/local/conf", "/data/youtrack/local/data", "/data/youtrack/local/backups"].each do |name|
   directory name do
     action :create
