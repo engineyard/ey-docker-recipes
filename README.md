@@ -50,7 +50,7 @@ You can run containers from any of your recipes. A good starting point is `cookb
 
 You need to pull the image before running a container. We will use `docker_image` and `docker_container`.
 
-```
+```ruby
 docker_image "memcached" do
   tag "1.4"
   action :pull
@@ -84,13 +84,48 @@ STAT total_connections 13
 ...
 ```
 
-## Data volumes
+## Generating config file
+
+Now that you have memcached running on port 11211 on the utility instance named "docker", your app instances can start using it. You need to generate a yml file which you can name memcached_docker.yml.
+
+```ruby
+if ['solo', 'app', 'app_master', 'util'].include?(node[:instance_role])
+  instances = node[:engineyard][:environment][:instances]
+  docker_instance = instances.find{|i| i[:name] == "docker"}
+
+  if docker_instance.nil?
+    raise "Docker instance named 'docker' does not exist. Please fix the docker recipe."
+  end
+
+  node[:engineyard][:environment][:apps].each do |app|
+    directory "/data/#{app[:name]}/shared/config" do
+      recursive true
+      owner node[:owner_name]
+      group node[:owner_name]
+      mode 0755
+    end
+
+    template "/data/#{app[:name]}/shared/config/memcached_docker.yml" do
+      owner node[:owner_name]
+      group node[:owner_name]
+      mode 0644
+      source "memcached_docker.yml.erb"
+      variables({
+        :environment => node[:environment][:framework_env],
+        :hostname => docker_instance[:private_hostname]
+      })
+    end
+  end
+end
+```
+
+## Using data volumes
 
 When a container is deleted, all data it wrote inside the container would be deleted as well. To save data outside of the container, we need to use a data volume. This volume maps a directory on the instance to a directory inside the container.
 
 The official redis image writes data on the /data directory inside the container. We can create /data/redis on the instance and map this to the container
 
-```
+```ruby
 docker_image "redis" do
   tag "3.2.1"
   action :pull
