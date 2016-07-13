@@ -52,12 +52,13 @@ You need to pull the image before running a container. We will use `docker_image
 
 ```
 docker_image "memcached" do
-  tag "1.4.27"
+  tag "1.4"
   action :pull
 end
 
 docker_container "my-memcache" do
   repo "memcached"
+  tag "1.4"
   port "11211:11211"
   restart_policy "always"
   action :run
@@ -97,6 +98,7 @@ end
 
 docker_container "my-redis" do
   repo "redis"
+  tag "3.2.1"
   command "redis-server --appendonly yes"
   port "6379:6379"
   volumes ["/data/redis:/data"]
