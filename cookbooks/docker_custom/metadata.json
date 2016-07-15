@@ -1,5 +1,5 @@
 {
-  "name": "customer_docker",
+  "name": "docker_custom",
   "description": "Entry point for Engineyard's custom Chef cookbooks",
   "long_description": "",
   "maintainer": "Allan Espinosa",
@@ -27,8 +27,8 @@
   "recipes": {
   },
   "version": "0.1.0",
-  "source_url": "https://github.com/aespinosa/engineyard-docker",
-  "issues_url": "https://github.com/aespinosa/engineyard-docker/issues",
+  "source_url": "https://github.com/engineyard/ey-docker-recipes",
+  "issues_url": "https://github.com/engineyard/ey-docker-recipes/issues",
   "privacy": false,
   "chef_versions": [
 
