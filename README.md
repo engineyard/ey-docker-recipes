@@ -6,6 +6,7 @@
 2. Download the engineyard gem on your local machine.
 3. Clone this repository on your local machine.
 4. Upload the custom chef recipes from your local machine.
+5. Click Apply on the environment page on Engine Yard Cloud
 
 ### 1. Boot a stable-v5 environment
 
@@ -29,8 +30,12 @@ cd ey-docker-recipes
 On your local machine, run this on the ey-docker-recipes directory
 
 ```
-ey recipes upload --apply -e environment_name
+ey recipes upload -e environment_name
 ```
+
+### 5. Click Apply
+
+Go to the environment page on Engine Yard Cloud. Click the Apply button. This will run the main chef recipes and custom chef recipes on a *single* chef run.
 
 ## Running containers
 

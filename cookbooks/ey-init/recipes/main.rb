@@ -11,4 +11,4 @@ node.engineyard.instance.roles.each { |role| include_recipe "#{role}::build" }
 include_recipe 'ey-base::post_bootstrap' # common things that we want to install setting up the instance
 
 # Insert any post bootst
-include_recipe 'customer_docker'
+include_recipe 'docker_custom'
