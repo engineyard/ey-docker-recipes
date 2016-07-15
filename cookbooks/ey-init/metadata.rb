@@ -9,4 +9,4 @@ depends 'ey-lib'
 depends 'ey-core'
 depends 'ey-base'
 
-depends 'customer_docker'
+depends 'docker_custom'
