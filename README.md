@@ -51,7 +51,7 @@ While you can run containers from the command line, we recommend that you use ch
 
 ### Using chef
 
-You can run containers from any of your recipes. A good starting point is `cookbooks/customer_docker/recipes/default.rb`.
+You can run containers from any of your recipes. A good starting point is `cookbooks/docker_custom/recipes/default.rb`.
 
 You need to pull the image before running a container. We will use `docker_image` and `docker_container`.
 
