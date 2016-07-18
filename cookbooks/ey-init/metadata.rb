@@ -10,3 +10,4 @@ depends 'ey-core'
 depends 'ey-base'
 
 depends 'docker_custom'
+depends 'chef_gem_fix'
