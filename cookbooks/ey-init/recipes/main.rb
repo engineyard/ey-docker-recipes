@@ -12,3 +12,4 @@ include_recipe 'ey-base::post_bootstrap' # common things that we want to install
 
 # Insert any post bootst
 include_recipe 'docker_custom'
+include_recipe 'chef_gem_fix'
