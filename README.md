@@ -94,35 +94,21 @@ STAT total_connections 13
 Now that you have memcached running on port 11211 on the utility instance named "docker", your app instances can start using it. You need to generate a yml file which you can name memcached_docker.yml.
 
 ```ruby
-if ['solo', 'app', 'app_master', 'util'].include?(node[:instance_role])
-  instances = node[:engineyard][:environment][:instances]
-  docker_instance = instances.find{|i| i[:name] == "docker"}
-
-  if docker_instance.nil?
-    raise "Docker instance named 'docker' does not exist. Please fix the docker recipe."
-  end
-
-  node[:engineyard][:environment][:apps].each do |app|
-    directory "/data/#{app[:name]}/shared/config" do
-      recursive true
-      owner node[:owner_name]
-      group node[:owner_name]
-      mode 0755
-    end
-
-    template "/data/#{app[:name]}/shared/config/memcached_docker.yml" do
-      owner node[:owner_name]
-      group node[:owner_name]
-      mode 0644
-      source "memcached_docker.yml.erb"
-      variables({
-        :environment => node[:environment][:framework_env],
-        :hostname => docker_instance[:private_hostname]
-      })
-    end
+if ['solo', 'app', 'app_master', 'util'].include?(node.dna[:instance_role])
+  template "/data/#{app[:name]}/shared/config/memcached_docker.yml" do
+    owner node[:owner_name]
+    group node[:owner_name]
+    mode 0644
+    source "memcached_docker.yml.erb"
+    variables({
+      :environment => node.dna[:environment][:framework_env],
+      :hostname => docker_instance[:private_hostname]
+    })
   end
 end
 ```
+
+This is just a snippet. Check docker_memcached for the complete recipe.
 
 ## Using data volumes
 

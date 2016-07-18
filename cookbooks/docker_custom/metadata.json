@@ -8,7 +8,8 @@
   "platforms": {
   },
   "dependencies": {
-    "engineyard_docker": ">= 0.0.0"
+    "engineyard_docker": ">= 0.0.0",
+    "docker_memcached": ">= 0.0.0"
   },
   "recommendations": {
   },

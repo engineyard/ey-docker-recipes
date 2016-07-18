@@ -1,5 +1,7 @@
-is_util_instance = node["instance_role"] == "util" && node["name"] == "docker"
+install_docker = node.dna["instance_role"] == "util" && ["docker"].include?(node.dna["name"])
 
-if is_util_instance
+if install_docker
   include_recipe "docker_custom::install"
 end
+
+#include_recipe "docker_memcached"
