@@ -51,7 +51,7 @@ While you can run containers from the command line, we recommend that you use ch
 
 ### Using chef
 
-You can run containers from any of your recipes. A good starting point is `cookbooks/docker_custom/recipes/default.rb`.
+You can run containers from any of your recipes. You can start at `cookbooks/docker_custom/recipes/default.rb` when you're just trying out docker.
 
 You need to pull the image before running a container. We will use `docker_image` and `docker_container`.
 
@@ -92,6 +92,8 @@ STAT total_connections 13
 ## Generating config file
 
 Now that you have memcached running on port 11211 on the utility instance named "docker", your app instances can start using it. You need to generate a yml file which you can name memcached_docker.yml.
+
+While this code can go to docker_custom, it's best to use a separate recipe and include it from docker_custom. See [Organizing your recipes](#organizing-your-recipes).
 
 ```ruby
 if ['solo', 'app', 'app_master', 'util'].include?(node.dna[:instance_role])
@@ -136,3 +138,41 @@ end
 When the my-redis container is deleted in the future, the redis data would remain on /data/redis on the instance. Engine Yard Cloud takes AWS snapshots of /data on the instance. These snapshots serve as the backups of your redis data. You're also free to back up /data/redis to an external location.
 
 When you create the my-redis container again, either on the same instance or a new instance, redis would have your previous data.
+
+## Organizing your recipes
+
+This repository has 4 recipes that are required to use docker. You only need to edit `docker_custom`.
+
+### docker
+
+This is the docker recipe from Chef Supermarket. Do not edit this recipe.
+
+### compat_resource
+
+This is a dependency of the docker recipe. Do not edit this recipe.
+
+### engineyard_docker
+
+This is a wrapper to the docker recipe that is used for Engine Yard instances. Do not edit this recipe.
+
+### docker_custom
+
+docker_custom has 2 main uses.
+
+1. It installs docker on utility instances. By default it uses the utility instance named "docker".
+
+      If you want to run docker on multiple utility instances, edit `docker_custom/attributes/default.rb`.
+
+      ```ruby
+      default[:docker_custom] = {
+        :docker_instances => ["docker", "docker2", "docker3", "docker4"]
+      }
+      ```
+
+2. It includes all the other docker recipes that run containers.
+
+      2.1 On `docker_custom/recipes/default.rb`, add `include_recipe "RECIPE_NAME"`. For example `include_recipe "docker_memcached"`.
+
+      2.2 On `docker_custom/metadata.rb`, add `depends "RECIPE_NAME"`. For example `depends "docker_memcached"`.
+
+      2.3 If you're creating a new recipe, create `cookbooks/RECIPE_NAME/recipes/default.rb`.
