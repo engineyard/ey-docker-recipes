@@ -10,6 +10,11 @@ module EngineyardDocker
         system true
       end
 
+      # enable IPv4 forwarding instead of letting docker do it
+      sysctl "net.ipv4.ip_forward" do
+        variables "net.ipv4.ip_forward" => 1
+      end
+
       template "/etc/conf.d/#{docker_name}"  do
         source 'docker.confd.erb'
         variables config: new_resource,
@@ -31,7 +36,21 @@ module EngineyardDocker
         cookbook 'engineyard_docker'
         source 'docker.monitrc.erb'
         variables pidfile: pidfile
-        notifies :run, resources(:execute => "monit reload")
+        notifies :run, resources(:execute => "monit reload"), :immediately
+      end
+
+      bash "check if docker is running for a maximum of 1 minute" do
+        code <<-EOH
+          for i in {1..12}
+          do
+            docker info
+            if [ $? -eq 0 ]; then
+              break
+            fi
+            sleep 5
+          done
+        EOH
+        not_if "docker info"
       end
     end
 
