@@ -8,6 +8,4 @@ issues_url 'https://support.engineyard.com'
 depends 'ey-lib'
 depends 'ey-core'
 depends 'ey-base'
-
-depends 'docker_custom'
-depends 'chef_gem_fix'
+depends 'ey-custom'
