@@ -8,4 +8,5 @@ version '0.0.1'
 # On Chef 12, this is how you enable recipes
 if Chef::VERSION[/^12/]
   depends "customer_docker"
+  depends 'docker_youtrack'
 end
