@@ -13,7 +13,7 @@ if docker_instance && (['app_master', 'app', 'solo'].include? node.dna[:instance
     source 'youtrack.conf.erb'
     notifies :reload, 'service[nginx]'
     variables ({
-      server_name: 'youtrack.mydomain.com',
+      server_name: node[:docker_youtrack][:server_name],
       docker_youtrack_hostname: docker_instance[:public_hostname]
     })
   end
