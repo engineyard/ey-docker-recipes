@@ -1,0 +1,8 @@
+<%= @environment %>:
+  adapter:   <%= @dbtype %>
+  database:  '<%= @dbname %>'
+  username:  '<%= @dbuser %>'
+  password:  '<%= @dbpass %>'
+  host:      '<%= @dbhost %>'
+  reconnect: true
+<%= @pool ? "  pool:      #@pool" : '' %>
