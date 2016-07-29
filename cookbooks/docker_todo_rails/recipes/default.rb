@@ -1,5 +1,4 @@
-is_todo_rails_instance = node[:dna][:instance_role] == "util" && node[:dna][:name] == "docker"
-
+is_todo_rails_instance = node[:dna][:instance_role] == "util" && node[:dna][:name] == node[:docker_todo_rails][:utility_name]
 if is_todo_rails_instance
   include_recipe "docker_todo_rails::database_yml"
   
