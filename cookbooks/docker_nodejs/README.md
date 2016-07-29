@@ -16,7 +16,7 @@ depends 'docker_nodejs'
 Add the following line to your `cookbooks/ey-custom/recipes/after-main.rb`:
 
 ```
-include_recipe `docker_nodejs::default`
+include_recipe 'docker_nodejs::default'
 ```
 
 
