@@ -1,22 +1,22 @@
-# docker_todo_rails
+# docker_quickstart_laravel
 
-Deployment of Engine Yard's sample Rails application [1] in Docker. This will
+Deployment of the quickstart-basic laravel app [1] in Docker. This will
 deploy the application in an instance called `docker`.
 
-[1] https://github.com/engineyard/todo
+[1] https://github.com/laravel/quickstart-basic
 
 ## Usage
 
 Add the following dependency to in `cookbooks/ey-custom/metadata.rb`:
 
 ```
-depends 'docker_todo_rails'
+depends 'docker_quickstart_laravel'
 ```
 
 Add the following line to your `cookbooks/ey-custom/recipes/after-main.rb`:
 
 ```
-include_recipe 'docker_todo_rails::default'
+include_recipe 'docker_quickstart_laravel::default'
 ```
 
 
