@@ -1,4 +1,4 @@
-# docker_todo_rails
+# docker_rails
 
 Deployment of Engine Yard's sample Rails application [1] in Docker. This will
 deploy the application in an instance called `docker`.
@@ -10,13 +10,13 @@ deploy the application in an instance called `docker`.
 Add the following dependency to in `cookbooks/ey-custom/metadata.rb`:
 
 ```
-depends 'docker_todo_rails'
+depends 'docker_rails'
 ```
 
 Add the following line to your `cookbooks/ey-custom/recipes/after-main.rb`:
 
 ```
-include_recipe `docker_todo_rails::default`
+include_recipe 'docker_rails::default'
 ```
 
 
