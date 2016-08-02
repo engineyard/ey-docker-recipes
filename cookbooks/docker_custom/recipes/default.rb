@@ -5,5 +5,6 @@ if install_docker
 end
 
 #include_recipe "docker_memcached"
-#include_recipe "docker_rails"
 #include_recipe "docker_youtrack"
+#include_recipe "docker_rails"
+#include_recipe "docker_laravel"
