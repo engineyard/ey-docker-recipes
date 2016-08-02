@@ -70,7 +70,7 @@ docker_container "my-memcache" do
 end
 ```
 
-We're forwarding port 11211 on the instance to 11211 on the my-memcache container. We can check that memcached is listening on 11211 by looking at the stats
+We're forwarding port 11211 on the instance to 11211 on the `my-memcache` container. We can check that memcached is listening on 11211 by looking at the stats
 
 ```
 # on the instance
@@ -93,7 +93,7 @@ STAT total_connections 13
 
 Now that you have memcached running on port 11211 on the utility instance named "docker", your app instances can start using it. You need to generate a yml file which you can name memcached_docker.yml.
 
-While this code can go to docker_custom, it's best to use a separate recipe and include it from docker_custom. See [Organizing your recipes](#organizing-your-recipes).
+While this code can go to `docker_custom`, it's best to use a separate recipe and include it from `ey-custom::after-main`. See [Organizing your recipes](#organizing-your-recipes).
 
 ```ruby
 if ['solo', 'app', 'app_master', 'util'].include?(node.dna[:instance_role])
@@ -110,7 +110,7 @@ if ['solo', 'app', 'app_master', 'util'].include?(node.dna[:instance_role])
 end
 ```
 
-This is just a snippet. Check docker_memcached for the complete recipe.
+This is just a snippet. Check `docker_memcached` for the complete recipe.
 
 ## Using data volumes
 
@@ -135,13 +135,13 @@ docker_container "my-redis" do
 end
 ```
 
-When the my-redis container is deleted in the future, the redis data would remain on /data/redis on the instance. Engine Yard Cloud takes AWS snapshots of /data on the instance. These snapshots serve as the backups of your redis data. You're also free to back up /data/redis to an external location.
+When the `my-redis` container is deleted in the future, the redis data would remain on /data/redis on the instance. Engine Yard Cloud takes AWS snapshots of /data on the instance. These snapshots serve as the backups of your redis data. You're also free to back up /data/redis to an external location.
 
-When you create the my-redis container again, either on the same instance or a new instance, redis would have your previous data.
+When you create the `my-redis` container again, either on the same instance or a new instance, redis would have your previous data.
 
 ## Organizing your recipes
 
-This repository has 4 recipes that are required to use docker. You only need to edit `docker_custom`.
+This repository has 5 recipes that are required to use docker. You only need to edit `docker_custom` and `ey-custom`.
 
 ### docker
 
@@ -157,22 +157,22 @@ This is a wrapper to the docker recipe that is used for Engine Yard instances. D
 
 ### docker_custom
 
-docker_custom has 2 main uses.
+`docker_custom` installs docker on utility instances. By default it uses the utility instance named "docker". If you want to run docker on multiple utility instances, edit `docker_custom/attributes/default.rb`.
 
-1. It installs docker on utility instances. By default it uses the utility instance named "docker".
+```ruby
+default[:docker_custom] = {
+  :docker_instances => ["docker", "docker2", "docker3", "docker4"]
+}
+```
 
-      If you want to run docker on multiple utility instances, edit `docker_custom/attributes/default.rb`.
+### ey-custom
 
-      ```ruby
-      default[:docker_custom] = {
-        :docker_instances => ["docker", "docker2", "docker3", "docker4"]
-      }
-      ```
+`ey-custom::after-main` runs after all main chef recipes. This makes it a good place to add most of your custom chef recipes.
 
-2. It includes all the other docker recipes that run containers.
+You need to edit 2 files when adding a recipe.
 
-      2.1 On `docker_custom/recipes/default.rb`, add `include_recipe "RECIPE_NAME"`. For example `include_recipe "docker_memcached"`.
+1. On `ey-custom/recipes/after-main.rb`, add `include_recipe "RECIPE_NAME"`. For example `include_recipe "docker_memcached"`.
 
-      2.2 On `docker_custom/metadata.rb`, add `depends "RECIPE_NAME"`. For example `depends "docker_memcached"`.
+2. On `ey-custom/metadata.rb`, add `depends "RECIPE_NAME"`. For example `depends "docker_memcached"`.
 
-      2.3 If you're creating a new recipe, create `cookbooks/RECIPE_NAME/recipes/default.rb`.
+If you're creating a new recipe, create `cookbooks/RECIPE_NAME/recipes/default.rb`.
