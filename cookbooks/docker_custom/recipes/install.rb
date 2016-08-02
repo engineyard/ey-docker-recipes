@@ -1,7 +1,7 @@
 docker_installation_tarball "default" do
-  source "https://test.docker.com/builds/Linux/x86_64/docker-1.12.0-rc2.tgz"
-  checksum "6df54c3360f713370aa59b758c45185b9a62889899f1f6185a08497ffd57a39b"
-  version "1.12.0-rc2"
+  source "https://get.docker.com/builds/Linux/x86_64/docker-1.12.0.tgz"
+  checksum "3dd07f65ea4a7b4c8829f311ab0213bca9ac551b5b24706f3e79a97e22097f8b"
+  version "1.12.0"
 end
 
 directory "/data/docker/graph" do
