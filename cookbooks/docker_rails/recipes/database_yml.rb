@@ -1,4 +1,4 @@
-directory "/data/docker_apps/todo_rails/config" do
+directory "/data/docker_apps/docker_rails/config" do
   action :create
   recursive true
   owner node[:owner_name]
@@ -13,7 +13,7 @@ db_type = case node[:dna][:engineyard][:environment][:db_stack_name]
             "mysql2"
           end
 
-template "/data/docker_apps/todo_rails/config/database.yml" do
+template "/data/docker_apps/docker_rails/config/database.yml" do
   owner node[:owner_name]
   group node[:owner_name]
   mode 0600
@@ -22,7 +22,7 @@ template "/data/docker_apps/todo_rails/config/database.yml" do
     :environment => "development",
     :dbuser => node[:dna][:users].first[:username],
     :dbpass => node[:dna][:users].first[:password],
-    :dbname => "todo_rails",
+    :dbname => "docker_rails",
     :dbhost => node[:dna][:db_host],
     :dbtype => db_type
   })
