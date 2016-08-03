@@ -4,7 +4,3 @@ if install_docker
   include_recipe "docker_custom::install"
 end
 
-#include_recipe "docker_memcached"
-#include_recipe "docker_youtrack"
-#include_recipe "docker_rails"
-#include_recipe "docker_laravel"
