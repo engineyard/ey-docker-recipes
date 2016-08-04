@@ -14,7 +14,19 @@ It also generates an Nginx config file `/etc/nginx/servers/youtrack.conf` on app
 
       ```
 
-2. Install docker on the utility instance. If you use a `utility_name` other than "docker" then modify the `docker_custom` recipe to include the utility name.
+2. Enable the recipe
+
+  Uncomment or add the line below to https://github.com/engineyard/ey-docker-recipes/blob/master/cookbooks/ey-custom/metadata.rb
+  
+  ```
+  depends "docker_youtrack"
+  ``` 
+  
+  Uncomment or add the line below to https://github.com/engineyard/ey-docker-recipes/blob/master/cookbooks/ey-custom/recipes/after-main.rb
+  
+  ```
+  include_recipe "docker_youtrack"
+  ```
 
 ## Docker image
 
