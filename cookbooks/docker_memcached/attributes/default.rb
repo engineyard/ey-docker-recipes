@@ -1,4 +1,4 @@
-default[:docker_memcached] = {
-  :utility_name => "docker"
+default['docker_memcached'] = {
+  'utility_name' => "docker"
 }
 
