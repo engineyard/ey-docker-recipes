@@ -15,7 +15,7 @@ end
 
 docker_container 'docker-youtrack' do
   repo 'dzwicker/docker-youtrack'
-  port '9090:8080'
+  port '9090:8081'
   volumes ['/data/youtrack/lib:/var/lib/youtrack', '/data/youtrack/local/logs:/usr/local/youtrack/logs', '/data/youtrack/local/conf:/usr/local/youtrack/conf', '/data/youtrack/local/data:/usr/local/youtrack/data', '/data/youtrack/local/backups:/usr/local/youtrack/backups']
   restart_policy 'always'
   action :run
