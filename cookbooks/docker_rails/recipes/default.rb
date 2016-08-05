@@ -1,4 +1,4 @@
-is_rails_instance = node[:dna][:instance_role] == "util" && node[:dna][:name] == node[:docker_rails][:utility_name]
+is_rails_instance = node['dna']['instance_role'] == "util" && node['dna']['name'] == node['docker_rails']['utility_name']
 if is_rails_instance
   include_recipe "docker_rails::database_yml"
   
@@ -17,19 +17,19 @@ if is_rails_instance
   end  
 end
 
-if ['solo', 'app_master', 'app'].include?(node[:dna][:instance_role])
+if ['solo', 'app_master', 'app'].include?(node['dna']['instance_role'])
 service 'nginx' do
   supports restart: true, reload: true, status: true
   action :nothing
 end
 
-instances = node[:dna][:engineyard][:environment][:instances]
-docker_instance = instances.find{|i| i[:name] == node[:docker_rails][:utility_name]}
+instances = node['dna']['engineyard']['environment']['instances']
+docker_instance = instances.find{|i| i['name'] == node['docker_rails']['utility_name']}
 if docker_instance.nil?
-  raise "Docker instance named '#{node[:docker_rails][:utility_name]}' does not exist. Please fix the docker_rails recipe."
+  raise "Docker instance named '#{node['docker_rails']['utility_name']}' does not exist. Please fix the docker_rails recipe."
 end
 
-if docker_instance && (['app_master', 'app', 'solo'].include? node[:dna][:instance_role])
+if docker_instance && (['app_master', 'app', 'solo'].include? node['dna']['instance_role'])
   template '/etc/nginx/servers/docker_rails.conf' do
     owner 'deploy'
     group 'deploy'
@@ -37,8 +37,8 @@ if docker_instance && (['app_master', 'app', 'solo'].include? node[:dna][:instan
     source 'docker_rails.conf.erb'
     notifies :reload, 'service[nginx]'
     variables ({
-      server_name: node[:docker_rails][:domain],
-      docker_rails_hostname: docker_instance[:public_hostname]
+      server_name: node['docker_rails']['domain'],
+      docker_rails_hostname: docker_instance['public_hostname']
     })
   end
 end
