@@ -3,9 +3,9 @@ service 'nginx' do
   action :nothing
 end
 
-instances = node.dna['engineyard']['environment']['instances']
+instances = node['dna']['engineyard']['environment']['instances']
 docker_instance = instances.find{|i| i['name'] == node['docker_youtrack']['utility_name']}
-if docker_instance && (['app_master', 'app', 'solo'].include? node.dna['instance_role'])
+if docker_instance && (['app_master', 'app', 'solo'].include? node['dna']['instance_role'])
   template '/etc/nginx/servers/youtrack.conf' do
     owner 'deploy'
     group 'deploy'
