@@ -1,5 +1,8 @@
 name "ey-custom"
 
+maintainer 'Engine Yard'
+maintainer_email 'support@engineyard.com'
+
 depends "chef_gem_fix"
 depends "docker_custom"
 
