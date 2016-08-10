@@ -2,14 +2,14 @@ is_rails_instance = node['dna']['instance_role'] == "util" && node['dna']['name'
 if is_rails_instance
   include_recipe "docker_rails::database_yml"
   
-  docker_image "crigor/todo" do
-    tag "latest"
+  docker_image node['docker_rails']['image'] do
+    tag node['docker_rails']['tag']
     action :pull
   end
 
   docker_container "todo" do
-    repo "crigor/todo"
-    tag "latest"
+    repo node['docker_rails']['image']
+    tag node['docker_rails']['tag']
     port "3000:3000"
     volume ["/data/docker_apps/docker_rails/config/database.yml:/usr/src/app/config/database.yml"]
     restart_policy "always"
