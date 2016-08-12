@@ -19,7 +19,68 @@ Add the following line to your `cookbooks/ey-custom/recipes/after-main.rb`:
 include_recipe 'docker_rails::default'
 ```
 
+## Building a Docker image
 
+You can build your image from your local machine or from an Engine Yard Cloud instance.
+
+On the root of your rails application, create `Dockerfile`
+
+```
+FROM engineyard/rails
+
+WORKDIR /usr/src/app
+ENV RAILS_ENV production
+
+COPY Gemfile /usr/src/app/
+COPY Gemfile.lock /usr/src/app/
+RUN bundle install --without development test
+
+COPY . /usr/src/app
+RUN bundle exec rake DATABASE_URL=postgresql:does_not_exist assets:precompile
+
+EXPOSE 3000
+CMD ["rails", "server", "-b", "0.0.0.0"]
+```
+
+Build the image and push it to Docker Hub.
+
+```
+docker build -t your_username/app_name .
+docker push your_username/app_name 
+```
+
+## Running your app
+
+To run your app, change the `image` and `tag` on `cookbooks/docker_rails/attributes/default.rb`.
+
+```
+  'image' => 'your_username/app_name',
+  'tag' => 'latest'
+```
+
+Create `/data/docker_apps/docker_rails/config/secrets.yml` manually or by using `ey scp`. You only have to do this once.
+
+`/data/docker_apps/docker_rails/config/database.yml` is created by the `docker_rails` recipe for you. It uses the database running on your environment. If you want to use a different database, comment out `include_recipe "docker_rails::database_yml"` on `cookbooks/docker_rails/recipes/default.rb`.
+
+## Uploading your recipes
+
+After making the changes above, upload your recipes to your environment and click Apply on the Engine Yard Cloud UI.
+
+```
+ey recipes upload -e environment_name
+```
+
+## Debugging your container
+
+If your rails app doesn't start after chef finishes, run the container and use `bash` as the command. Once you're inside the container, start rails manually. Make sure you have both `secrets.yml` and `database.yml` on `/data/docker_apps/docker_rails/config/`.
+
+```
+# ssh to the utility instance
+docker run -it -v /data/docker_apps/docker_rails/config/database.yml:/usr/src/app/config/database.yml -v /data/docker_apps/docker_rails/config/secrets.yml:/usr/src/app/config/secrets.yml your_username/app_name bash
+
+# inside the container
+rails server -b 0.0.0.0
+```
 
 ## LICENSE
 

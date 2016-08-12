@@ -19,7 +19,7 @@ template "/data/docker_apps/docker_rails/config/database.yml" do
   mode 0600
   source "database.yml.erb"
   variables({
-    'environment' => "development",
+    'environment' => "production",
     'dbuser' => node['dna']['users'].first['username'],
     'dbpass' => node['dna']['users'].first['password'],
     'dbname' => "docker_rails",
