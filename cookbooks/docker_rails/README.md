@@ -70,6 +70,18 @@ After making the changes above, upload your recipes to your environment and clic
 ey recipes upload -e environment_name
 ```
 
+## Debugging your container
+
+If your rails app doesn't start after chef finishes, run the container and use `bash` as the command. Once you're inside the container, start rails manually. Make sure you have both `secrets.yml` and `database.yml` on `/data/docker_apps/docker_rails/config/`.
+
+```
+# ssh to the utility instance
+docker run -it -v /data/docker_apps/docker_rails/config/database.yml:/usr/src/app/config/database.yml -v /data/docker_apps/docker_rails/config/secrets.yml:/usr/src/app/config/secrets.yml your_username/app_name bash
+
+# inside the container
+rails server -b 0.0.0.0
+```
+
 ## LICENSE
 
 Copyright 2016 Engine Yard, Inc.
