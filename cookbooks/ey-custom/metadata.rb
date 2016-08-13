@@ -1,4 +1,5 @@
 name "ey-custom"
+version '0.1.0'
 
 maintainer 'Engine Yard'
 maintainer_email 'support@engineyard.com'

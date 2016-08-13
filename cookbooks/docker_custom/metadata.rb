@@ -1,4 +1,5 @@
 name "docker_custom"
+version '0.1.0'
 depends "engineyard_docker"
 
 maintainer 'Engine Yard'
