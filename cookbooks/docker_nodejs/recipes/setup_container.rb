@@ -16,12 +16,13 @@ end
 # https://github.com/engineyard/ey-cookbooks-stable-v5-DELETEME/blob/master/cookbooks/sequelizejs/recipes/default.rb.
 # Check this upstream source for updates.
 
-directory '/data/docker_nodejs' do
+directory '/data/docker_apps/docker_nodejs/config' do
   owner node['owner_name']
   group node['owner_name']
+  recursive true
 end
 
-template '/data/docker_nodejs/shared/config/config.json' do
+template '/data/docker_apps/docker_nodejs/config/config.json' do
   owner node['owner_name']
   group node['owner_name']
   mode 0644
@@ -36,16 +37,16 @@ template '/data/docker_nodejs/shared/config/config.json' do
 end
 
 
-docker_image 'aespinosa/engineyard-chat' do
-  tag 'latest'
+source_image = docker_image node['docker_nodejs']['image'] do
+  tag node['docker_nodejs']['tag']
   action :pull
 end
 
 docker_container 'chat' do
-  repo 'aespinosa/engineyard-chat'
+  repo source_image.repo
   network_mode 'host'
-  volumes %w(/data/docker_nodejs/shared/config/config.json:/usr/src/app/config.json)
-  tag 'latest'
+  volumes %w(/data/docker_apps/docker_nodejs/config/config.json:/usr/src/app/config/config.json)
+  tag source_image.tag
   restart_policy 'always'
   action :run
 end  

@@ -19,7 +19,64 @@ Add the following line to your `cookbooks/ey-custom/recipes/after-main.rb`:
 include_recipe `docker_nodejs::default`
 ```
 
+## Building a Docker image
 
+You can build your image from a local Docker host or from an Engine Yard Cloud
+instance with Docker installed.
+
+On the root of your NodeJS application, create the following `Dockerfile`:
+
+```
+FROM node:4.4.5
+
+ENV NODE_ENV production
+
+ADD . /usr/src/app
+
+WORKDIR /usr/src/app
+RUN npm install
+
+CMD node /usr/src/app/app.js
+```
+
+This assumes that your NodeJS application's main entry point is through
+`app.js`. Adjust the `Dockerfile` above to accomodate your application's needs.
+
+
+After preparing the `Dockerfile`, you can now build the image and push it to a 
+registry like Docker Hub:
+
+
+```
+docker build -t your_username/app_name .
+docker push your_username/app_name 
+```
+
+## Running the application
+
+To run your application, update the following attributes in
+`cookbooks/docker_nodejs/attributes/default.rb` to point to the image you built
+earlier:
+
+```
+default['docker_nodejs']['image'] = 'your_username/app_name'
+default['docker_nodejs']['tag'] = 'latest'
+
+```
+
+You can retrieve the credential information about the database master in the
+environment by parsing the `/usr/src/app/config/config.json` file inside the container.
+
+## Debugging the container
+
+If the NodeJS application doesn't boot after Chef converges, you can spin up the
+container manually and enter it interactively with the following command:
+
+```
+# ssh into the utility instance
+inside-util> docker run -it -v /data/docker_nodejs/shared/config/config.json:/usr/src/app/config/config.json your_username/app_name bash
+inside-container> node app.js
+```
 
 ## LICENSE
 
