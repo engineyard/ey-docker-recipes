@@ -1,5 +1,6 @@
 
 registries = node['docker_custom']['registries']
+credential_file = '/home/deploy/.docker/config.json'
 
 ruby_block 'load docker registry credentials' do
   block do
