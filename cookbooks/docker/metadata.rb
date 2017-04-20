@@ -1,0 +1,5 @@
+name 'docker'
+version '2.9.2'
+maintainer 'Cookbook Engineering Team'
+maintainer_email 'cookbooks@chef.io'
+depends 'docker'
