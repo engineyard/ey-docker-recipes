@@ -143,6 +143,10 @@ When you create the `my-redis` container again, either on the same instance or a
 
 This repository has 5 recipes that are required to use docker. You only need to edit `docker_custom` and `ey-custom`.
 
+### chef_gem_fix
+
+This is an EY-specific workaround to make the `chef_gem` resource work for the `docker` cookbook.  Do not edit this recipe.
+
 ### docker
 
 This is the docker recipe from Chef Supermarket. Do not edit this recipe.
