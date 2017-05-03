@@ -157,7 +157,7 @@ This is a dependency of the docker recipe. Do not edit this recipe.
 
 ### engineyard_docker
 
-This is a wrapper to the docker recipe that is used for Engine Yard instances. Do not edit this recipe.
+This is a wrapper to the docker recipe that is used for Engine Yard instances. Do not edit this recipe.  This meant to be added as a dependency to `metadata.rb`.  There are no recipes in this cookbook.  It is not supposed be be in `include_recipe` calls.
 
 ### docker_custom
 

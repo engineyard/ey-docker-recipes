@@ -17,3 +17,8 @@ docker_service_manager_monit "default" do
   storage_driver "overlay"
 end
 
+group 'docker'  do
+  members %w(deploy)
+  action :modify
+end
+
